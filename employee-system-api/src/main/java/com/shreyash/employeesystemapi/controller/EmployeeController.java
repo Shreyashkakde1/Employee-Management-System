@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
@@ -19,7 +21,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("employees")
+    @PostMapping("/employees")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
         EmployeeDto employee = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(employee, HttpStatus.CREATED);
@@ -29,5 +31,14 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(){
         List<EmployeeDto> allEmployee = employeeService.getAllEmployee();
         return new ResponseEntity<>(allEmployee,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable Long id){
+        boolean deleted = false;
+        deleted = employeeService.deleteEmployee(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("Deleted",deleted);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

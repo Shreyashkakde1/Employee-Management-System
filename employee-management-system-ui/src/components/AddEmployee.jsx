@@ -1,18 +1,21 @@
 import { useState } from "react";
 import EmployeeService from "../service/EmployeeService";
+import { useNavigate } from "react-router-dom";
 
 
 const AddEmployee = () => {
-  const [employee, setemployee] = useState({
+  const [employee, setEmployee] = useState({
     id: "",
     firstName: "",
     lastName: "",
     emailId: "",
   });
 
+  const navigaye = useNavigate();
+
   const handleChange = (e) => {
     const value = e.target.value;
-    setemployee({
+    setEmployee({
       ...employee,
       [e.target.name]: value  // Set the value of the property corresponding to e.target.name
     });
@@ -24,6 +27,7 @@ const AddEmployee = () => {
 
     EmployeeService.saveEmployee(employee).then((response)=>{
       console.log(response);
+      navigaye("/employeeList")
     }).catch((error)=>{
       console.log(error);
     })
@@ -33,6 +37,16 @@ const AddEmployee = () => {
     // }).catch((error)=>{
     //   console.log(error);
     // })
+  }
+
+  const reset = (e) =>{
+    e.preventDefault();
+    setEmployee({
+      id: "",
+      firstName: "",
+      lastName: "",
+      emailId: "",
+    });
   }
 
   return (
@@ -91,7 +105,8 @@ const AddEmployee = () => {
             >
               Save
             </button>
-            <button className="px-2 py-2 font-semibold text-white bg-red-400 rounded hover:bg-red-700">
+            <button className="px-2 py-2 font-semibold text-white bg-red-400 rounded hover:bg-red-700"
+            onClick={reset}>
               Clear
             </button>
           </div>

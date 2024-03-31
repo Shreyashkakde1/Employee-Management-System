@@ -8,7 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,5 +47,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
                 .collect(Collectors.toList()); // Added collect method to collect the stream into a list
         return allEmployeesDto;
+    }
+
+    @Override
+    public boolean deleteEmployee(Long id) {
+        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        employeeRepository.delete(employeeEntity);
+        Map<String,Boolean> response = new HashMap<>();
+        return true;
     }
 }
