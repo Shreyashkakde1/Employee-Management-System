@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-const Employee = ({employee}) => {
+const Employee = ({employee,deleteEmployee}) => {
   return (
     <tr key={employee.id}>
                     {" "}
@@ -27,8 +27,8 @@ const Employee = ({employee}) => {
                         Edit
                       </a>
                       <a
-                        href="#"
-                        className="px-4 text-indigo-600 hover:text-indigo-800"
+                        onClick={(e,id)=> deleteEmployee(e,employee.id)}
+                        className="px-4 text-indigo-600 hover:text-indigo-800 hover:cursor-pointer"
                       >
                         Delete
                       </a>
